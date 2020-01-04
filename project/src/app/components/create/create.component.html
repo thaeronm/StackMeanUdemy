@@ -1,0 +1,48 @@
+<div class="container" *ngIf="project">
+  <h2>{{title}}</h2>
+
+  <div class="message success" *ngIf="status == 'success'">
+    El Proyecto se ha creado exitosamente <a [routerLink]="['/proyecto', save_project._id]" >Vealo Aqui</a>
+  </div>
+
+  <div class="message failed" *ngIf="status == 'failed'">
+    No se ha podido crear el proyecto.
+  </div>
+
+  <form #projectForm="ngForm" (ngSubmit)="onSubmit(projectForm)">
+    <p>
+      <label for="name">Nombre</label>
+      <input type="text" name="name" #name="ngModel" [(ngModel)]="project.name" required>
+      <span class="form_error" *ngIf="name.touched && !name.valid">El nombre es obligatorio!</span>
+    </p>
+    <p>
+      <label for="description">Descripcion</label>
+      <input type="text" name="description" #description="ngModel" [(ngModel)]="project.description" required>
+      <span class="form_error" *ngIf="description.touched && !description.valid">La descripción es obligatorio!</span>
+    </p>
+    <p>
+      <label for="category">Categoria</label>
+      <input type="text" name="category" #category="ngModel" [(ngModel)]="project.category" required>
+      <span class="form_error" *ngIf="category.touched && !category.valid">La categoria es obligatorio!</span>
+    </p>
+    <p>
+      <label for="year">Año de lanzamiento</label>
+      <input type="text" name="year" #year="ngModel" [(ngModel)]="project.year">
+    </p>
+    <p>
+      <label for="langs">Lenguajes utilizados</label>
+      <input type="text" name="langs" #langs="ngModel" [(ngModel)]="project.langs" required>
+      <span class="form_error" *ngIf="langs.touched && !langs.valid">Los lenguajes son obligatorio!</span>
+    </p>
+    <p>
+      <label for="image">Imagen del proyecto</label>
+      <span class="image" *ngIf="project.image" style="float: none;">
+        <img src="{{ url+'get-image/'+project.image }}" style="width: 100px;" />
+      </span>
+      <input type="file" name="image" placeholder="Subir imagen" (change)="fileChangeEvent($event)">
+    </p>
+
+    <input type="submit" value="Enviar" [disabled]="!projectForm.form.valid">
+  </form>
+</div>
+
